@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:calcotron/physics.dart';
+import 'package:calcotron/chemistry.dart';
+import 'package:calcotron/maths.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,109 +11,225 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Calcotron v0.1',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  int _selectedIndex = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  @override
+  Widget build(BuildContext context) {
+    TabController _tabController;
+    _tabController =
+        TabController(length: 3, vsync: this, initialIndex: _selectedIndex);
+    _tabController.addListener(() {
+      setState(() {
+        _selectedIndex = _tabController.index;
+      });
+    });
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.black,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        backgroundColor: Colors.black87,
+        title: const Text("Calcotron"),
+        centerTitle: true,
+        leading: PopupMenuButton<MenuItem>(
+          icon: const Icon(Icons.menu),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            side: BorderSide(
+              color: Colors.greenAccent,
+              width: 2,
+            ),
+          ),
+          iconSize: 28,
+          color: Colors.black87,
+          itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: MenuItem.Maths,
+              child: DefaultTextStyle(
+                  style: TextStyle(color: Colors.white), child: Text("Maths")),
+            ),
+            const PopupMenuItem(
+              value: MenuItem.Physics,
+              child: DefaultTextStyle(
+                  style: TextStyle(color: Colors.white),
+                  child: Text("Physics")),
+            ),
+            const PopupMenuItem(
+              value: MenuItem.Chemistry,
+              child: DefaultTextStyle(
+                  style: TextStyle(color: Colors.white),
+                  child: Text("Chemistry")),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          IconButton(
+            tooltip: "Search",
+            icon: const Icon(Icons.search),
+            iconSize: 28,
+            color: Colors.white,
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearchBar(),
+              );
+            },
+          ),
+        ],
+        bottom: TabBar(
+          indicatorWeight: 5,
+          indicatorColor: Colors.greenAccent,
+          tabs: const <Widget>[
+            Tab(
+              text: 'Physics',
+              icon: Icon(Icons.brightness_5_sharp),
+            ),
+            Tab(
+              text: 'Chemistry',
+              icon: Icon(Icons.cloud_outlined),
+            ),
+            Tab(
+              text: 'Maths',
+              icon: Icon(Icons.analytics),
+            ),
+          ],
+          controller: _tabController,
+        ),
+      ),
+      body: TabBarView(
+        children: const <Widget>[Physics(), Chemistry(), Maths()],
+        controller: _tabController,
+      ),
+    );
+  }
+}
+
+class MySearchBar extends SearchDelegate {
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black12,
+      ),
+      scaffoldBackgroundColor: Colors.white10,
+      hintColor: Colors.white38,
+      textTheme: Theme.of(context).textTheme.copyWith(
+            headline6: const TextStyle(color: Colors.white, fontSize: 18),
+          ),
+      inputDecorationTheme: const InputDecorationTheme(
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.greenAccent)),
+      ),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.greenAccent,
+      ),
+    );
+  }
+
+  List<String> searchedmethods = [
+    'Linear Functions',
+    'Polynomials',
+    'Equations',
+    'Something else 0',
+    'Something else 1',
+    'Something else 2',
+    'Something else 3',
+    'Something else 4',
+    'Something else 5'
+  ];
+
+  @override
+  Widget buildLeading(BuildContext context) => IconButton(
+        icon: const Icon(Icons.keyboard_backspace),
+        onPressed: () {
+          close(context, null);
+        },
+      );
+
+  @override
+  List<Widget> buildActions(BuildContext context) => [
+        IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              query = '';
+            }),
+      ];
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> methods = searchedmethods.where((searchedmethods) {
+      final result = searchedmethods.toLowerCase();
+      final input = query.toLowerCase();
+      return result.contains(input);
+    }).toList();
+
+    return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+      return ListView.builder(
+        itemCount: methods.length,
+        itemBuilder: (context, index) {
+          final method = methods[index];
+          return Card(
+            color: Colors.black87,
+            child: ListTile(
+              trailing: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white54),
+                onPressed: () {
+                  setState(() {
+                    methods.remove(method);
+                  });
+                },
+              ),
+              title: DefaultTextStyle(
+                style: const TextStyle(fontSize: 15, color: Colors.white),
+                child: Text(method),
+              ),
+              onTap: () {
+                query = method;
+                showResults(context);
+                //go to page here
+              },
+            ),
+          );
+        },
+      );
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+  Widget buildResults(BuildContext context) {
+    return Center(
+      child: Text(
+        query,
+        style: const TextStyle(fontSize: 64),
+        // This is where we show the actual page
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+enum MenuItem { Maths, Physics, Chemistry }
