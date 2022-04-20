@@ -5,9 +5,19 @@ import 'package:calcotron/maths.dart';
 import 'package:flutter/services.dart';
 
 //if you want to push do:
-//git add .
-//git commit -m "insert commit description"
+//git commit -am "insert commit description"
 //git push -u origin branchname
+List<String> searchedmethods = [
+  'Linear Functions',
+  'Polynomials',
+  'Equations',
+  'Something else 0',
+  'Something else 1',
+  'Something else 2',
+  'Something else 3',
+  'Something else 4',
+  'Something else 5'
+];
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +50,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     TabController _tabController;
@@ -155,18 +164,6 @@ class MySearchBar extends SearchDelegate {
     );
   }
 
-  List<String> searchedmethods = [
-    'Linear Functions',
-    'Polynomials',
-    'Equations',
-    'Something else 0',
-    'Something else 1',
-    'Something else 2',
-    'Something else 3',
-    'Something else 4',
-    'Something else 5'
-  ];
-
   @override
   Widget buildLeading(BuildContext context) => IconButton(
         icon: const Icon(Icons.keyboard_backspace),
@@ -194,33 +191,50 @@ class MySearchBar extends SearchDelegate {
 
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      return ListView.builder(
-        itemCount: methods.length,
-        itemBuilder: (context, index) {
-          final method = methods[index];
-          return Card(
-            color: Colors.black87,
-            child: ListTile(
-              trailing: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white54),
-                onPressed: () {
-                  setState(() {
-                    methods.remove(method);
-                  });
+      return Scaffold(
+        backgroundColor: Colors.black87,
+        body: RawScrollbar(
+          thumbColor: Colors.white10,
+          thickness: 6,
+          radius: const Radius.circular(10),
+          child: ScrollConfiguration(
+            behavior: const ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
+              color: Colors.greenAccent,
+              child: ListView.builder(
+                itemCount: methods.length,
+                itemBuilder: (context, index) {
+                  final method = methods[index];
+                  return Card(
+                    color: Colors.black87,
+                    child: ListTile(
+                      trailing: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white54),
+                        onPressed: () {
+                          setState(() {
+                            searchedmethods.remove(method);
+                            methods.remove(method);
+                          });
+                        },
+                      ),
+                      title: DefaultTextStyle(
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.white),
+                        child: Text(method),
+                      ),
+                      onTap: () {
+                        query = method;
+                        showResults(context);
+                        //go to page here
+                      },
+                    ),
+                  );
                 },
               ),
-              title: DefaultTextStyle(
-                style: const TextStyle(fontSize: 15, color: Colors.white),
-                child: Text(method),
-              ),
-              onTap: () {
-                query = method;
-                showResults(context);
-                //go to page here
-              },
             ),
-          );
-        },
+          ),
+        ),
       );
     });
   }

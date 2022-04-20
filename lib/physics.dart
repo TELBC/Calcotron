@@ -11,6 +11,7 @@ class _PhysicsState extends State<Physics> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.black87,
         body: RawScrollbar(
