@@ -4,6 +4,11 @@ import 'package:calcotron/chemistry.dart';
 import 'package:calcotron/maths.dart';
 import 'package:flutter/services.dart';
 
+//if you want to push do:
+//git add .
+//git commit -m "insert commit description"
+//git push -u origin branchname
+
 void main() {
   runApp(const MyApp());
 }
