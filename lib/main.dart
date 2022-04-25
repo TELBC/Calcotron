@@ -82,21 +82,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           color: Colors.black87,
           itemBuilder: (context) => [
             const PopupMenuItem(
-              value: MenuItem.Maths,
+              value: MenuItem.Impressum,
               child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.white), child: Text("Maths")),
+                  style: TextStyle(color: Colors.white), child: Text("Impressum")),
             ),
             const PopupMenuItem(
-              value: MenuItem.Physics,
+              value: MenuItem.Contact,
               child: DefaultTextStyle(
                   style: TextStyle(color: Colors.white),
-                  child: Text("Physics")),
-            ),
-            const PopupMenuItem(
-              value: MenuItem.Chemistry,
-              child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.white),
-                  child: Text("Chemistry")),
+                  child: Text("Contact")),
             ),
           ],
         ),
@@ -251,4 +245,4 @@ class MySearchBar extends SearchDelegate {
   }
 }
 
-enum MenuItem { Maths, Physics, Chemistry }
+enum MenuItem { Impressum, Contact }
