@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 //git commit -am "insert commit description"
 //git push -u origin branchname
 //afterwards git push will remember and only git push will work
+//test
 List<String> searchedmethods = [
   'Linear Functions',
   'Polynomials',
