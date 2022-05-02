@@ -11,6 +11,11 @@ List<String> searchedmethods = [
   'Linear Functions',
   'Polynomials',
   'Equations',
+];
+List<String> existingmethods = [
+  'Linear Functions',
+  'Polynomials',
+  'Equations',
   'Something else 0',
   'Something else 1',
   'Something else 2',
@@ -50,6 +55,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     TabController _tabController;
@@ -60,77 +66,87 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         _selectedIndex = _tabController.index;
       });
     });
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.black,
-          statusBarIconBrightness: Brightness.light,
-        ),
-        backgroundColor: Colors.black87,
-        title: const Text("Calcotron"),
-        centerTitle: true,
-        leading: PopupMenuButton<MenuItem>(
-          icon: const Icon(Icons.menu),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            side: BorderSide(
-              color: Colors.greenAccent,
-              width: 2,
-            ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.black,
+            statusBarIconBrightness: Brightness.light,
           ),
-          iconSize: 28,
-          color: Colors.black87,
-          itemBuilder: (context) => [
-            const PopupMenuItem(
-              value: MenuItem.Impressum,
-              child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.white), child: Text("Impressum")),
+          backgroundColor: Colors.black87,
+          title: const Text("Calcotron"),
+          centerTitle: true,
+          leading: PopupMenuButton<MenuItem>(
+            icon: const Icon(Icons.menu),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              side: BorderSide(
+                color: Colors.greenAccent,
+                width: 2,
+              ),
             ),
-            const PopupMenuItem(
-              value: MenuItem.Contact,
-              child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.white),
-                  child: Text("Contact")),
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          IconButton(
-            tooltip: "Search",
-            icon: const Icon(Icons.search),
             iconSize: 28,
-            color: Colors.white,
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: MySearchBar(),
-              );
-            },
+            color: Colors.black87,
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: MenuItem.Impressum,
+                child: DefaultTextStyle(
+                    style: TextStyle(color: Colors.white),
+                    child: Text("History")),
+              ),
+              const PopupMenuItem(
+                value: MenuItem.Impressum,
+                child: DefaultTextStyle(
+                    style: TextStyle(color: Colors.white),
+                    child: Text("Impressum")),
+              ),
+              const PopupMenuItem(
+                value: MenuItem.Contact,
+                child: DefaultTextStyle(
+                    style: TextStyle(color: Colors.white),
+                    child: Text("Contact")),
+              ),
+            ],
           ),
-        ],
-        bottom: TabBar(
-          indicatorWeight: 5,
-          indicatorColor: Colors.greenAccent,
-          tabs: const <Widget>[
-            Tab(
-              text: 'Physics',
-              icon: Icon(Icons.brightness_5_sharp),
-            ),
-            Tab(
-              text: 'Chemistry',
-              icon: Icon(Icons.cloud_outlined),
-            ),
-            Tab(
-              text: 'Maths',
-              icon: Icon(Icons.analytics),
+          actions: <Widget>[
+            IconButton(
+              tooltip: "Search",
+              icon: const Icon(Icons.search),
+              iconSize: 28,
+              color: Colors.white,
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: MySearchBar(),
+                );
+              },
             ),
           ],
+          bottom: TabBar(
+            indicatorWeight: 5,
+            indicatorColor: Colors.greenAccent,
+            tabs: const <Widget>[
+              Tab(
+                text: 'Physics',
+                icon: Icon(Icons.brightness_5_sharp),
+              ),
+              Tab(
+                text: 'Chemistry',
+                icon: Icon(Icons.cloud_outlined),
+              ),
+              Tab(
+                text: 'Maths',
+                icon: Icon(Icons.analytics),
+              ),
+            ],
+            controller: _tabController,
+          ),
+        ),
+        body: TabBarView(
+          children: const <Widget>[Physics(), Chemistry(), Maths()],
           controller: _tabController,
         ),
-      ),
-      body: TabBarView(
-        children: const <Widget>[Physics(), Chemistry(), Maths()],
-        controller: _tabController,
       ),
     );
   }
@@ -175,13 +191,22 @@ class MySearchBar extends SearchDelegate {
             }),
       ];
 
+  List<String> change_methods(List<String> history, List<String> all) {
+    if (query.isEmpty) {
+      return history;
+    } else {
+      List<String> methods = all.where((all) {
+        final result = all.toLowerCase();
+        final input = query.toLowerCase();
+        return result.contains(input);
+      }).toList();
+      return methods;
+    }
+  }
+
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> methods = searchedmethods.where((searchedmethods) {
-      final result = searchedmethods.toLowerCase();
-      final input = query.toLowerCase();
-      return result.contains(input);
-    }).toList();
+    List<String> _methods = change_methods(searchedmethods, existingmethods);
 
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
@@ -197,9 +222,11 @@ class MySearchBar extends SearchDelegate {
               axisDirection: AxisDirection.down,
               color: Colors.greenAccent,
               child: ListView.builder(
-                itemCount: methods.length,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                itemCount: _methods.length,
                 itemBuilder: (context, index) {
-                  final method = methods[index];
+                  final method = _methods[index];
                   return Card(
                     color: Colors.black87,
                     child: ListTile(
@@ -208,7 +235,7 @@ class MySearchBar extends SearchDelegate {
                         onPressed: () {
                           setState(() {
                             searchedmethods.remove(method);
-                            methods.remove(method);
+                            _methods.remove(method);
                           });
                         },
                       ),

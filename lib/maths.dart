@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:calcotron/redirect.dart';
 
 class Maths extends StatefulWidget {
   const Maths({Key? key}) : super(key: key);
@@ -44,61 +45,11 @@ class _MathsState extends State<Maths> {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemPage1(title: "test1", text: "This is a very long text in order to try out the clip function that works I think",),
-                      ));
-                    },
-                  ),
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: const DefaultTextStyle(
-                        child: Text("test"),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemPage1(title: "test2", text: "yes2",),
-                      ));
-                    },
-                  ),
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: const DefaultTextStyle(
-                        child: Text("test"),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemPage1(title: "test2", text: "yes2",),
-                      ));
-                    },
-                  ),
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: const DefaultTextStyle(
-                        child: Text("test"),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ItemPage1(title: "test2", text: "yes2",),
+                        builder: (context) => const Redirect(
+                            title: "test1",
+                            text:
+                                "This is a very long text in order to try out the clip function that works I think "
+                                "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."),
                       ));
                     },
                   ),
@@ -108,49 +59,6 @@ class _MathsState extends State<Maths> {
           ),
         ),
       ),
-    );
-  }
-}
-
-
-
-class ItemPage1 extends StatefulWidget {
-  const ItemPage1({Key? key, required this.title, required this.text}) : super(key: key);
-  final String title;
-  final String text;
-  @override
-  State<ItemPage1> createState() => _ItemPage1State();
-}
-
-class _ItemPage1State extends State<ItemPage1> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.black87,
-      ),
-
-      body: Row(
-    children: <Widget>[
-      Flexible(
-        child: Container(
-          padding: EdgeInsets.only(right: 13.0),
-          child: Text(
-            widget.text,
-            overflow: TextOverflow.clip,
-            style: const TextStyle(
-              fontSize: 13.0,
-              color: Color(0xFF212121),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    ],
-      ),
-
     );
   }
 }
