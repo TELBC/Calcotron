@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:calcotron/redirect.dart';
+import 'dart:core';
+import 'Database.dart';
 
 class Chemistry extends StatefulWidget {
   const Chemistry({Key? key}) : super(key: key);
@@ -9,6 +11,29 @@ class Chemistry extends StatefulWidget {
 }
 
 class _ChemistryState extends State<Chemistry> {
+  late List<Images> images;
+  late List<Description> description;
+  late List<Titles> title;
+  late List<Subject> subject;
+  late List<Topics> topics;
+  late List<QnA> qna;
+
+  @override
+  void initState() {
+    super.initState();
+
+    refreshImages();
+  }
+
+  void refreshImages() async {
+    images = await Calcotron_Database.instance.readAllImages();
+    description = await Calcotron_Database.instance.readAllDescription();
+    title = await Calcotron_Database.instance.readAllTitle();
+    subject = await Calcotron_Database.instance.readAllSubjects();
+    topics = await Calcotron_Database.instance.readAllTopics();
+    qna = await Calcotron_Database.instance.readAllQnAs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,9 +70,14 @@ class _ChemistryState extends State<Chemistry> {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Redirect(
-                          title: "test2",
-                          text: "yes2",
+                        builder: (context) => Redirect(
+                          id: 1,
+                          images: images,
+                          description: description,
+                          title: title,
+                          subject: subject,
+                          topics: topics,
+                          qna: qna,
                         ),
                       ));
                     },

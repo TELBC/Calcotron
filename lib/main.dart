@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:calcotron/physics.dart';
 import 'package:calcotron/chemistry.dart';
 import 'package:calcotron/maths.dart';
+import 'package:calcotron/about.dart';
 import 'package:flutter/services.dart';
+
+import 'Database.dart';
 
 //if you want to push do:
 //git commit -am "insert commit description"
@@ -56,6 +59,132 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
+  late List<Images> images;
+  late List<Description> description;
+  late List<Titles> title;
+  late List<Subject> subject;
+  late List<Topics> topics;
+  late List<QnA> qna;
+
+  @override
+  void initState() {
+    super.initState();
+
+    refreshDatabase();
+  }
+
+  @override
+  void dispose() {
+    Calcotron_Database.instance.close();
+
+    super.dispose();
+  }
+
+  /*
+  * INSERT DATA HERE AND CREATE THE VARs
+  * */
+  void refreshDatabase() async {
+
+    // GET ITEMS TO LIST HERE
+    images = await Calcotron_Database.instance.readAllImages();
+    description = await Calcotron_Database.instance.readAllDescription();
+    title = await Calcotron_Database.instance.readAllTitle();
+    subject = await Calcotron_Database.instance.readAllSubjects();
+    topics = await Calcotron_Database.instance.readAllTopics();
+    qna = await Calcotron_Database.instance.readAllQnAs();
+
+    // CREATE THE VARIABLES HERE
+
+    //TITLES
+    Titles title1 = const Titles(title: "Optics");
+    Titles title2 = const Titles(title: "Integrals");
+    Titles title3 = const Titles(title: "ChemTEST");
+
+    //IMAGES
+    Images testImage1 = const Images(image: "../img/Calcotron_Logo.png");
+    Images testImage2 = const Images(image: "");
+
+    //DESCRIPTION
+    Description description1 = const Description(description: "example text text example");
+    Description description2 = const Description(description: "example text text example");
+    // Description description3 = const Description(description: "example text text example");
+
+    //SUBJECT
+    //id = 0 (Physics); id = 1 (Maths); id = 2 (Chemistry)
+    Subject subject1 = const Subject(subject: "Physics");
+    Subject subject2 = const Subject(subject: "Maths");
+    Subject subject3 = const Subject(subject: "Chemistry");
+
+    //TOPICS
+    Topics topic1 = const Topics(SID: 0, topic: "Optics");
+    Topics topic2 = const Topics(SID: 1, topic: "Integrals");
+    Topics topic3 = const Topics(SID: 2, topic: "Integrals");
+
+    //QNA
+    QnA question1 = const QnA(question: "What is the speed of light", answer: "299 792 458", topicID: 0);
+    QnA question2 = const QnA(question: "What is the integral of x^2?", answer: "x^3/3", topicID: 1);
+    // QnA question3 = const QnA(question: "What is the integral of x^2?", answer: "x^3/3", topicID: 2);
+
+    /*
+    ADDING DATA: await Calcotron_Database.instance.create"WHAT"(/INSERT THE VAR/)
+    UPDATING and DELETING: await Calcotron_Database.instance.delete/WHAT YOU WANT/
+    for TESTING: print(await Calcotron_Database.instance.readAll/WHAT/());
+     */
+
+    //ADD DATA HERE
+    // THE CAST IS HERE SO THAT THE DATA IS NOT ADDED CONSTANTLY EVERYTIME THE APP IS LOADED
+
+    if(images.isEmpty) {
+      await Calcotron_Database.instance.createImage(testImage1);
+      await Calcotron_Database.instance.createImage(testImage2);
+      // await Calcotron_Database.instance.createImage(testImage3);
+    }
+
+
+    if(description.isEmpty) {
+
+      await Calcotron_Database.instance.createDescription(description1);
+      await Calcotron_Database.instance.createDescription(description2);
+      // await Calcotron_Database.instance.createDescription(description3);
+    }
+
+    if(title.isEmpty) {
+      await Calcotron_Database.instance.createTitle(title1);
+      await Calcotron_Database.instance.createTitle(title2);
+      await Calcotron_Database.instance.createTitle(title3);
+    }
+
+    if(subject.isEmpty) {
+      await Calcotron_Database.instance.createSubject(subject1);
+      await Calcotron_Database.instance.createSubject(subject2);
+      await Calcotron_Database.instance.createSubject(subject3);
+    }
+
+    if(topics.isEmpty) {
+      await Calcotron_Database.instance.createTopics(topic1);
+      await Calcotron_Database.instance.createTopics(topic2);
+      await Calcotron_Database.instance.createTopics(topic3);
+    }
+
+    if(qna.isEmpty) {
+      await Calcotron_Database.instance.createQnA(question1);
+      await Calcotron_Database.instance.createQnA(question2);
+      // await Calcotron_Database.instance.createQnA(question3);
+    }
+
+
+
+    //REFRESH DATA AFTER INSERTING
+    images = await Calcotron_Database.instance.readAllImages();
+    description = await Calcotron_Database.instance.readAllDescription();
+    title = await Calcotron_Database.instance.readAllTitle();
+    subject = await Calcotron_Database.instance.readAllSubjects();
+    topics = await Calcotron_Database.instance.readAllTopics();
+    qna = await Calcotron_Database.instance.readAllQnAs();
+
+    print(title[0].title);
+    print(images[1].image);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +208,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           title: const Text("Calcotron"),
           centerTitle: true,
           leading: PopupMenuButton<MenuItem>(
+            onSelected: (result) {
+              if (result == MenuItem.About) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => About()));
+              }
+            },
             icon: const Icon(Icons.menu),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -91,22 +226,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             color: Colors.black87,
             itemBuilder: (context) => [
               const PopupMenuItem(
-                value: MenuItem.Impressum,
+                value: MenuItem.About,
                 child: DefaultTextStyle(
                     style: TextStyle(color: Colors.white),
-                    child: Text("History")),
+                    child: Text("About")),
+
               ),
               const PopupMenuItem(
-                value: MenuItem.Impressum,
+                value: MenuItem.Quiz,
                 child: DefaultTextStyle(
-                    style: TextStyle(color: Colors.white),
-                    child: Text("Impressum")),
-              ),
-              const PopupMenuItem(
-                value: MenuItem.Contact,
-                child: DefaultTextStyle(
-                    style: TextStyle(color: Colors.white),
-                    child: Text("Contact")),
+                    style: TextStyle(color: Colors.white), child: Text("Quiz")),
               ),
             ],
           ),
@@ -231,25 +360,29 @@ class MySearchBar extends SearchDelegate {
                   return Card(
                     color: Colors.black87,
                     child: ListTile(
-                      trailing: IconButton(
-                        icon: const Icon(Icons.close, color: Colors.white54),
-                        onPressed: () {
-                          setState(() {
-                            searchedmethods.remove(method);
-                            _methods.remove(method);
-                          });
-                        },
-                      ),
                       title: DefaultTextStyle(
                         style:
                             const TextStyle(fontSize: 15, color: Colors.white),
                         child: Text(method),
                       ),
                       onTap: () {
+                        if (!searchedmethods.contains(method))
+                          searchedmethods.add(method);
                         query = method;
                         showResults(context);
-                        //go to page here
                       },
+                      trailing: query.isNotEmpty
+                          ? null
+                          : IconButton(
+                              icon: const Icon(Icons.close,
+                                  color: Colors.white54),
+                              onPressed: () {
+                                setState(() {
+                                  searchedmethods.remove(method);
+                                  _methods.remove(method);
+                                });
+                              },
+                            ),
                     ),
                   );
                 },
@@ -273,4 +406,4 @@ class MySearchBar extends SearchDelegate {
   }
 }
 
-enum MenuItem { Impressum, Contact }
+enum MenuItem { About, Quiz }
