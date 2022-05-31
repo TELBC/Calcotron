@@ -101,8 +101,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Titles title3 = const Titles(title: "ChemTEST");
 
     //IMAGES
-    Images testImage1 = const Images(image: "../img/Calcotron_Logo.png");
-    Images testImage2 = const Images(image: "");
+    Images testImage1 = const Images(image: "img/Calcotron_Logo.png");
+    Images testImage2 = const Images(image: "img/Calcotron_Logo.png");
 
     //DESCRIPTION
     Description description1 = const Description(description: "example text text example");
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     //TOPICS
     Topics topic1 = const Topics(SID: 0, topic: "Optics");
     Topics topic2 = const Topics(SID: 1, topic: "Integrals");
-    Topics topic3 = const Topics(SID: 2, topic: "Integrals");
+    Topics topic3 = const Topics(SID: 2, topic: "Other");
 
     //QNA
     QnA question1 = const QnA(question: "What is the speed of light", answer: "299 792 458", topicID: 0);
@@ -139,41 +139,32 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       await Calcotron_Database.instance.createImage(testImage2);
       // await Calcotron_Database.instance.createImage(testImage3);
     }
-
-
     if(description.isEmpty) {
 
       await Calcotron_Database.instance.createDescription(description1);
       await Calcotron_Database.instance.createDescription(description2);
       // await Calcotron_Database.instance.createDescription(description3);
     }
-
     if(title.isEmpty) {
       await Calcotron_Database.instance.createTitle(title1);
       await Calcotron_Database.instance.createTitle(title2);
       await Calcotron_Database.instance.createTitle(title3);
     }
-
     if(subject.isEmpty) {
       await Calcotron_Database.instance.createSubject(subject1);
       await Calcotron_Database.instance.createSubject(subject2);
       await Calcotron_Database.instance.createSubject(subject3);
     }
-
     if(topics.isEmpty) {
       await Calcotron_Database.instance.createTopics(topic1);
       await Calcotron_Database.instance.createTopics(topic2);
       await Calcotron_Database.instance.createTopics(topic3);
     }
-
     if(qna.isEmpty) {
       await Calcotron_Database.instance.createQnA(question1);
       await Calcotron_Database.instance.createQnA(question2);
       // await Calcotron_Database.instance.createQnA(question3);
     }
-
-
-
     //REFRESH DATA AFTER INSERTING
     images = await Calcotron_Database.instance.readAllImages();
     description = await Calcotron_Database.instance.readAllDescription();
