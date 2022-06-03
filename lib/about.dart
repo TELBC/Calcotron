@@ -12,12 +12,9 @@ class About extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.white10,
         hintColor: Colors.white38,
-        textTheme: Theme
-            .of(context)
-            .textTheme
-            .copyWith(
-          headline6: const TextStyle(color: Colors.white, fontSize: 18),
-        ),
+        textTheme: Theme.of(context).textTheme.copyWith(
+              headline6: const TextStyle(color: Colors.white, fontSize: 18),
+            ),
         inputDecorationTheme: const InputDecorationTheme(
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.greenAccent)),
@@ -40,27 +37,53 @@ class About extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.only(bottom: 10, top: 5),
               children: [
-                InkWell(
-                  onTap: () async {
-                    await showDialog(
-                        context: context,
-                        builder: (_) => ImageDialogue(
-                          image: "img/Calcotron_Logo.png",
-                        ));
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(5.0),
-                    padding: const EdgeInsets.all(13.0),
-                    width: MediaQuery.of(context).size.width,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      borderRadius: BorderRadius.circular(15),
-                      image: DecorationImage(
-                        image: AssetImage("img/Calcotron_Logo.png"),
-                        fit: BoxFit.contain,
+                Container(
+                  margin: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(13.0),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Image.asset(
+                            "img/Calcotron_Logo_textless.png",
+                          ),
+                          Column(
+                            children: const [
+                              Text(
+                                "Calcotron",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 35,
+                                    letterSpacing: 3,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(height: 3),
+                              Text(
+                                "a Team Aether service",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
+                      const Text(
+                        "Version 1.2.6",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -71,7 +94,7 @@ class About extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: const DefaultTextStyle(
-                    child: Text("whatever"),
+                    child: Text(""),
                     style: TextStyle(
                       fontSize: 13.0,
                       color: Colors.white,
