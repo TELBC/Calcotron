@@ -15,64 +15,73 @@ import 'package:sqflite/sqflite.dart';
 class Images {
 
   static final List<String> value = [
-    "id", "image"
+    "id", "image1", "image2"
   ];
 
   final int? id;
-  final String image;
+  final String image1;
+  final String? image2;
 
   const Images({
     this.id,
-    required this.image,
+    required this.image1,
+    this.image2,
   });
   Map<String, Object?> toJson() => {
     'id': id,
-    'image': image,
+    'image1': image1,
+    'image2': image2,
   };
 
   static Images fromJson(Map<String, Object?> json) => Images(
 
     id: json['id'] as int?,
-    image: json['image'] as String,
+    image1: json['image1'] as String,
+    image2: json['image2'] as String?,
 
   );
 
   Images copy({
     int? id,
-    String? image,
-  }) => Images(id: id ?? this.id, image: image ?? this.image);
-
+    String? image1,
+    String? image2,
+  }) => Images(id: id ?? this.id, image1: image1 ?? this.image1, image2: image2 ?? this.image2);
 }
 
 class Description {
 
   static final List<String> value = [
-    "id", "description"
+    "id", "description1", "description2"
   ];
 
   final int? id;
-  final String description;
+  final String description1;
+  final String? description2;
 
   const Description({
     this.id,
-    required this.description,
+    required this.description1,
+    this.description2,
   });
   Map<String, Object?> toJson() => {
     'id': id,
-    'description': description,
+    'description1': description1,
+    'description2': description2,
   };
 
   static Description fromJson(Map<String, Object?> json) => Description(
 
     id: json['id'] as int?,
-    description: json['description'] as String,
+    description1: json['description1'] as String,
+    description2: json['description2'] as String?,
 
   );
 
   Description copy({
     int? id,
-    String? description,
-  }) => Description(id: id ?? this.id, description: description ?? this.description);
+    String? description1,
+    String? description2,
+  }) => Description(id: id ?? this.id, description1: description1 ?? this.description1, description2: description2 ?? this.description2);
 
 }
 
@@ -253,13 +262,15 @@ class Calcotron_Database {
     await db.execute('''
     CREATE TABLE Images (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    image TEXT NOT NULL
+    image1 TEXT NOT NULL,
+    image2 TEXT NULL
     );
     ''');
     await db.execute('''
     CREATE TABLE Description (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    description TEXT NOT NULL
+    description1 TEXT NOT NULL,
+    description2 TEXT NULL
     );
     ''');
     await db.execute('''
@@ -563,6 +574,3 @@ class Calcotron_Database {
   * await print("what field"()) to check whether INSERT or DELETION or UPDATE was successful
   *
   * */
-
-
-

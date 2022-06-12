@@ -28,38 +28,12 @@ class Redirect extends StatefulWidget {
 }
 
 class _RedirectState extends State<Redirect> {
-  late ZoomPanBehavior _zoomcontroller;
-  static const platform = MethodChannel("com.flutter.java/parse");
   final textfieldController = TextEditingController();
-  final List<ChartData> chartData = <ChartData>[
-    ChartData(-10, -11),
-    ChartData(1, 20),
-    ChartData(2, -10),
-    ChartData(3, 5),
-    ChartData(4, 1),
-    ChartData(5, 7),
-    ChartData(6, 3),
-    ChartData(7, 4),
-    ChartData(10, 10),
-    ChartData(15, 13),
-    ChartData(21, 20),
-  ];
 
   @override
   void dispose() {
     textfieldController.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _zoomcontroller = ZoomPanBehavior(
-        // enablePinching: true,
-        // enableSelectionZooming: true,
-        // zoomMode: ZoomMode.xy,
-        enablePanning: true,
-        maximumZoomLevel: 0.4);
   }
 
   @override
@@ -104,7 +78,7 @@ class _RedirectState extends State<Redirect> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: DefaultTextStyle(
-                    child: Text(widget.description[widget.id].description),
+                    child: Text(widget.description[widget.id].description1),
                     style: const TextStyle(
                       fontSize: 13.0,
                       color: Colors.white,
@@ -116,7 +90,7 @@ class _RedirectState extends State<Redirect> {
                     await showDialog(
                         context: context,
                         builder: (_) => ImageDialogue(
-                              image: widget.images[widget.id].image,
+                              image: widget.images[widget.id].image1,
                             ));
                   },
                   child: Container(
@@ -127,9 +101,15 @@ class _RedirectState extends State<Redirect> {
                     decoration: BoxDecoration(
                       color: Colors.black87,
                       borderRadius: BorderRadius.circular(15),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black87,
+                          spreadRadius: 2,
+                        ),
+                      ],
                       image: DecorationImage(
-                        image: AssetImage(widget.images[widget.id].image),
-                        fit: BoxFit.contain,
+                        image: AssetImage(widget.images[widget.id].image1),
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
@@ -149,112 +129,6 @@ class _RedirectState extends State<Redirect> {
                 //     ),
                 //   ),
                 // ),
-                Container(
-                  margin: const EdgeInsets.all(5.0),
-                  padding: const EdgeInsets.all(13.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      SafeArea(
-                        child: SfCartesianChart(
-                          enableAxisAnimation: true,
-                          zoomPanBehavior: _zoomcontroller,
-                          plotAreaBorderWidth: 0,
-                          primaryXAxis: NumericAxis(
-                            crossesAt: 0,
-                            labelRotation: 90,
-                            visibleMinimum: -10,
-                            visibleMaximum: 10,
-                            axisLine:
-                                const AxisLine(color: Colors.grey, width: 0.6),
-                            majorGridLines: const MajorGridLines(
-                                color: Colors.grey, width: 0.3),
-                          ),
-                          primaryYAxis: NumericAxis(
-                            visibleMinimum: -10,
-                            visibleMaximum: 10,
-                            crossesAt: 0,
-                            axisLine:
-                                const AxisLine(color: Colors.grey, width: 0.6),
-                            majorGridLines: const MajorGridLines(
-                                color: Colors.grey, width: 0.3),
-                          ),
-                          series: <ChartSeries<ChartData, int>>[
-                            FastLineSeries<ChartData, int>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y,
-                              isVisible: true,
-                              yAxisName: 'y',
-                              xAxisName: 'x',
-                              color: Colors.greenAccent,
-                              dataLabelSettings: const DataLabelSettings(
-                                  isVisible: true,
-                                  textStyle: TextStyle(
-                                      color: Colors.white12, fontSize: 12)),
-                              dataLabelMapper: (ChartData data, _) =>
-                                  '(' +
-                                  data.x.toString() +
-                                  '|' +
-                                  data.y.toString() +
-                                  ')',
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            left: 13.0, right: 1.0, top: 3, bottom: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.white12,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'f(x) = ',
-                              style: TextStyle(
-                                fontSize: 13.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Flexible(
-                              child: TextField(
-                                controller: textfieldController,
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.greenAccent),
-                                  ),
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10.0),
-                              child: IconButton(
-                                icon: Icon(Icons.double_arrow,
-                                    color: Colors.greenAccent.withOpacity(0.8),
-                                    size: 30),
-                                onPressed: () {
-                                  Parser(textfieldController.text);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Container(
                   margin: const EdgeInsets.all(5.0),
                   padding: const EdgeInsets.all(13.0),
@@ -314,22 +188,6 @@ class _RedirectState extends State<Redirect> {
       ),
     );
   }
-
-  void Parser(String value) async {
-    try {
-      value = await platform.invokeMethod("Parser");
-    } on PlatformException catch (e) {
-      value = "Failed: '${e.message}'";
-    }
-    print(value);
-  }
-}
-
-class ChartData {
-  ChartData(this.x, this.y);
-
-  final int? x;
-  final int? y;
 }
 
 class ImageDialogue extends StatelessWidget {

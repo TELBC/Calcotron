@@ -94,7 +94,8 @@ class About extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: const DefaultTextStyle(
-                    child: Text(""),
+                    child: Text("Calcotron is a school project developed by Florian Körner, Jeff Hu, Tristan Losada, Ruben Osmanovic and Somya Rathee. We intended it to be an offline learning app about mathematics, physics and chemistry, used by students to study for these subjects. Calcotron contains a formula collection with detailed explanations and quizzes to prepare you for upcoming exams. It also provides you with in-built features such as a graphing-calculator for a visual representation of functions"),
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13.0,
                       color: Colors.white,

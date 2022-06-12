@@ -4,14 +4,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
 public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "com.flutter.java/parse";
-    private Parser parser;
-    private double xvalues=0;
+
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
@@ -19,18 +21,43 @@ public class MainActivity extends FlutterActivity {
                 .setMethodCallHandler(
                         (call, result) -> {
                             if (call.method.equals("Parser")) {
+                                BinaryTree.root = new Node(null);
+                                Parser p;
+                                String text = call.argument("text");
+                                if (text == "" || text == null) text = "0";
+                                BinaryTree.root = new Node(null);
                                 try {
-                                    parser=new Parser("x+3");
+                                    p = new Parser(text);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                Node node=BinaryTree.root;
-                                BinaryTree.value=xvalues;
-                                double yvalues=BinaryTree.evaluate(node);
-                                result.success("("+xvalues+"|"+yvalues+")");
-//                                result.success("Hi from Java");
+//                                clearTree();  todo
+                                double startint=-20;
+                                if(text.contains("root")){
+                                    startint=0;
+                                }else if(text.contains("log") || text.contains("ln")){
+                                    startint=0.0000000001;
+                                }
+                                ArrayList<double[]> list = new ArrayList();
+                                list.clear();
+                                    for (double i = startint; i <= 20; i += 0.1) {
+                                        BinaryTree.value = i;
+                                        double y = BinaryTree.evaluate(BinaryTree.root.left);
+                                        list.add(new double[]{i, y});
+                                    }
+                                result.success(list);
                             }
                         }
                 );
+    }
+}
+
+class ChartData {
+    public double x;
+    public double y;
+
+    public ChartData(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }

@@ -27,3 +27,30 @@ flutter:
   uses-material-design: true
   assets:
     - img/
+    - img/formula_imgs/
+    - img/formula_imgs/Chemistry/
+    - img/formula_imgs/Chemistry/AcidsBases/
+    - img/formula_imgs/Chemistry/BioChem/
+    - img/formula_imgs/Chemistry/ElectroChem/
+    - img/formula_imgs/Chemistry/Inorganic/
+    - img/formula_imgs/Chemistry/OrgChem/
+    - img/formula_imgs/Chemistry/PeriodicTable/
+    - img/formula_imgs/Chemistry/PhysicalChem/
+    - img/formula_imgs/Chemistry/ThermoChem/
+    - img/formula_imgs/Maths/
+    - img/formula_imgs/Maths/Sets/
+    - img/formula_imgs/Maths/Vector&Matrices/
+    - img/formula_imgs/Maths/Differentiation/
+    - img/formula_imgs/Maths/Integration/
+    - img/formula_imgs/Maths/Probab/
+    - img/formula_imgs/Maths/QuadEqu/
+    - img/formula_imgs/Maths/SeriesSequ/
+    - img/formula_imgs/Maths/Statistics/
+    - img/formula_imgs/Maths/Trig/
+    - img/formula_imgs/Physics/
+    - img/formula_imgs/Physics/Classical Mechanics/
+    - img/formula_imgs/Physics/Themodynamics/
+    - img/formula_imgs/Physics/ElectroMagn/
+    - img/formula_imgs/Physics/Optics/
+    - img/formula_imgs/Physics/Quantum/
+    - img/formula_imgs/Physics/Relativity/

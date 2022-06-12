@@ -71,7 +71,7 @@ class _MathsState extends State<Maths> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Redirect(
-                          id: 1,
+                          id: 2,
                           images: images,
                           description: description,
                           title: title,

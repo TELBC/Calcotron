@@ -3,18 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
-// List<String> searchedmethods = [];
-// List<String> existingmethods = [
-//   'Linear Functions',
-//   'Polynomials',
-//   'Equations',
-//   'Something else 0',
-//   'Something else 1',
-//   'Something else 2',
-//   'Something else 3',
-//   'Something else 4',
-//   'Something else 5'
-// ];
 
 class MySearchBar extends SearchDelegate {
   @override
