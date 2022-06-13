@@ -4,36 +4,22 @@ import 'dart:core';
 import 'Database.dart';
 
 class Maths extends StatefulWidget {
-  const Maths({Key? key}) : super(key: key);
+  const Maths(
+      {Key? key, required this.images, required this.description, required this.title, required this.subject, required this.topics, required this.qna,})
+      : super(key: key);
+
+  final List<Images> images;
+  final List<Description> description;
+  final List<Titles> title;
+  final List<Subject> subject;
+  final List<Topics> topics;
+  final List<QnA> qna;
 
   @override
   _MathsState createState() => _MathsState();
 }
 
 class _MathsState extends State<Maths> {
-  late List<Images> images;
-  late List<Description> description;
-  late List<Titles> title;
-  late List<Subject> subject;
-  late List<Topics> topics;
-  late List<QnA> qna;
-
-  @override
-  void initState() {
-    super.initState();
-
-    refreshDatabase();
-  }
-
-  void refreshDatabase() async {
-    images = await Calcotron_Database.instance.readAllImages();
-    description = await Calcotron_Database.instance.readAllDescription();
-    title = await Calcotron_Database.instance.readAllTitle();
-    subject = await Calcotron_Database.instance.readAllSubjects();
-    topics = await Calcotron_Database.instance.readAllTopics();
-    qna = await Calcotron_Database.instance.readAllQnAs();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,40 +35,44 @@ class _MathsState extends State<Maths> {
             child: GlowingOverscrollIndicator(
               axisDirection: AxisDirection.down,
               color: Colors.greenAccent,
-              child: GridView.count(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 3,
+                    mainAxisSpacing: 10),
                 primary: true,
                 padding: const EdgeInsets.all(10),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 3,
-                children: <Widget>[
-                  InkWell(
+                itemCount: 10,
+                itemBuilder: (BuildContext context, int index) {
+                  index+=6;
+                  return InkWell(
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.black54,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       padding: const EdgeInsets.all(10),
-                      child: const DefaultTextStyle(
-                        child: Text("test"),
-                        style: TextStyle(color: Colors.white),
+                      child: DefaultTextStyle(
+                        child: Text(widget.title[index].title),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Redirect(
-                          id: 2,
-                          images: images,
-                          description: description,
-                          title: title,
-                          subject: subject,
-                          topics: topics,
-                          qna: qna,
-                        ),
+                      Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                        builder: (context) =>
+                            Redirect(
+                              id: index,
+                              images: widget.images,
+                              description: widget.description,
+                              title: widget.title,
+                              subject: widget.subject,
+                              topics: widget.topics,
+                              qna: widget.qna,
+                            ),
                       ));
                     },
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),

@@ -4,36 +4,28 @@ import 'dart:core';
 import 'Database.dart';
 
 class Chemistry extends StatefulWidget {
-  const Chemistry({Key? key}) : super(key: key);
+  const Chemistry({
+    Key? key,
+    required this.images,
+    required this.description,
+    required this.title,
+    required this.subject,
+    required this.topics,
+    required this.qna,
+  }) : super(key: key);
+
+  final List<Images> images;
+  final List<Description> description;
+  final List<Titles> title;
+  final List<Subject> subject;
+  final List<Topics> topics;
+  final List<QnA> qna;
 
   @override
   _ChemistryState createState() => _ChemistryState();
 }
 
 class _ChemistryState extends State<Chemistry> {
-  late List<Images> images;
-  late List<Description> description;
-  late List<Titles> title;
-  late List<Subject> subject;
-  late List<Topics> topics;
-  late List<QnA> qna;
-
-  @override
-  void initState() {
-    super.initState();
-
-    refreshImages();
-  }
-
-  void refreshImages() async {
-    images = await Calcotron_Database.instance.readAllImages();
-    description = await Calcotron_Database.instance.readAllDescription();
-    title = await Calcotron_Database.instance.readAllTitle();
-    subject = await Calcotron_Database.instance.readAllSubjects();
-    topics = await Calcotron_Database.instance.readAllTopics();
-    qna = await Calcotron_Database.instance.readAllQnAs();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,41 +41,44 @@ class _ChemistryState extends State<Chemistry> {
             child: GlowingOverscrollIndicator(
               axisDirection: AxisDirection.down,
               color: Colors.greenAccent,
-              child: GridView.count(
-                primary: true,
-                padding: const EdgeInsets.all(10),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 3,
-                children: <Widget>[
-                  InkWell(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      child: const DefaultTextStyle(
-                        child: Text("test"),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Redirect(
-                          id: 1,
-                          images: images,
-                          description: description,
-                          title: title,
-                          subject: subject,
-                          topics: topics,
-                          qna: qna,
+              child: GridView.builder(
+                  primary: true,
+                  padding: const EdgeInsets.all(10),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 3,
+                      mainAxisSpacing: 10),
+                  itemCount: 8,
+                  itemBuilder: (BuildContext context, int index) {
+                    index+=16;
+                    return InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ));
-                    },
-                  ),
-                ],
-              ),
+                        padding: const EdgeInsets.all(10),
+                        child: DefaultTextStyle(
+                          child: Text(widget.title[index].title),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                          builder: (context) => Redirect(
+                            id: index,
+                            images: widget.images,
+                            description: widget.description,
+                            title: widget.title,
+                            subject: widget.subject,
+                            topics: widget.topics,
+                            qna: widget.qna,
+                          ),
+                        ));
+                      },
+                    );
+                  }),
             ),
           ),
         ),

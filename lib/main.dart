@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:calcotron/graph.dart';
-import 'package:flutter/gestures.dart';
+import 'package:calcotron/quiz.dart';
 import 'package:flutter/material.dart';
 import 'package:calcotron/physics.dart';
 import 'package:calcotron/chemistry.dart';
@@ -19,15 +19,30 @@ import 'searchtab.dart';
 
 List<String> searchedmethods = [];
 List<String> existingmethods = [
-  'Linear Functions',
-  'Polynomials',
-  'Equations',
-  'Something else 0',
-  'Something else 1',
-  'Something else 2',
-  'Something else 3',
-  'Something else 4',
-  'Something else 5'
+  "Mechanics",
+  "Thermodynamics",
+  "Optics",
+  "Electromagnetism",
+  "Relativity",
+  "Quantum Mechanics",
+  "Sets",
+  "Vectors & Matrices",
+  "Quadratic Equations",
+  "Planes",
+  "Trignometry",
+  "Integration",
+  "Differentiation",
+  "Statistics",
+  "Probability",
+  "Series and Sequences",
+  "Acids, Bases",
+  "Electrochemistry",
+  "Organic Chemistry",
+  "Inorganic Chemistry",
+  "Periodic Table",
+  "Thermochemistry",
+  "Physical Chemistry",
+  "Biochemistry"
 ];
 
 void main() {
@@ -93,14 +108,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  int _selectedIndex = 0;
-  bool hit=false;
+  int _selectedIndex = 1;
   late List<Images> images = [];
-  late List<Description> description= [];
-  late List<Titles> title= [];
-  late List<Subject> subject= [];
-  late List<Topics> topics= [];
-  late List<QnA> qna= [];
+  late List<Description> description = [];
+  late List<Titles> title = [];
+  late List<Subject> subject = [];
+  late List<Topics> topics = [];
+  late List<QnA> qna = [];
 
   @override
   void initState() {
@@ -116,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void refreshDatabase() async{
+  void refreshDatabase() async {
     // GET ITEMS TO LIST HERE
     images = await Calcotron_Database.instance.readAllImages();
     description = await Calcotron_Database.instance.readAllDescription();
@@ -133,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     Titles title2 = const Titles(title: "Thermodynamics");
     Titles title3 = const Titles(title: "Optics");
     Titles title4 = const Titles(title: "Electromagnetism");
-    Titles title5 = const Titles(title: "Relativity ");
+    Titles title5 = const Titles(title: "Relativity");
     Titles title6 = const Titles(title: "Quantum Mechanics");
 
     //Maths
@@ -164,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         image1:
             "img/formula_imgs/Physics/Classical Mechanics/01Acceleration.png");
     Images image2 = const Images(
-        image1: "img/formula_imgs/Physics/Thermodynamics/01Enthalpy.png");
+        image1: "img/formula_imgs/Physics/Themodynamics/01Enthalpy.png");
     Images image3 =
         const Images(image1: "img/formula_imgs/Physics/Optics/01Optics.png");
     Images image4 = const Images(
@@ -179,38 +193,40 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         const Images(image1: "img/formula_imgs/Maths/Sets/01ImpFormula.png");
     Images image8 = const Images(
         image1: "img/formula_imgs/Maths/Vector&Matrices/Magnitude.png");
-    Images image9 =
-        const Images(image1: "img/formula_imgs/Maths/QuadEqu/01QuadraticEqu");
-    Images image10 = const Images(image1: "img/formula_imgs/Maths/Trig/01Trig");
+    Images image9 = const Images(
+        image1: "img/formula_imgs/Maths/QuadEqu/01QuadraticEqu.png");
+    Images image10 =
+        const Images(image1: "img/formula_imgs/Maths/Trig/01Trig.png");
     Images image11 =
-        const Images(image1: "img/formula_imgs/Maths/Integration/01Integr");
-    Images image12 =
-        const Images(image1: "img/formula_imgs/Maths/Differentiation/01Dif");
-    Images image13 =
-        const Images(image1: "img/formula_imgs/Maths/Statistics/01Statistics");
+        const Images(image1: "img/formula_imgs/Maths/Integration/01Integr.png");
+    Images image12 = const Images(
+        image1: "img/formula_imgs/Maths/Differentiation/01Dif.png");
+    Images image13 = const Images(
+        image1: "img/formula_imgs/Maths/Statistics/01Statistics.png");
     Images image14 =
-        const Images(image1: "img/formula_imgs/Maths/Probab/01Probab");
+        const Images(image1: "img/formula_imgs/Maths/Probab/01Probab.png");
     Images image15 =
-        const Images(image1: "img/formula_imgs/Maths/SeriesSequ/01Series");
+        const Images(image1: "img/formula_imgs/Maths/SeriesSequ/01Series.png");
 
     //Chemistry
     Images image16 = const Images(
         image1: "img/formula_imgs/Chemistry/AcidsBases/AcidsBaseEquation.png");
     Images image17 = const Images(
-        image1: "img/formula_imgs/Chemistry/ElectroChem/01Electrochem");
+        image1: "img/formula_imgs/Chemistry/ElectroChem/01Electrochem.png");
     Images image18 =
-        const Images(image1: "img/formula_imgs/Chemistry/OrgChem/01OrgCh");
-    Images image19 =
-        const Images(image1: "img/formula_imgs/Chemistry/Inorganic/01Inorg");
+        const Images(image1: "img/formula_imgs/Chemistry/OrgChem/01OrgCh.png");
+    Images image19 = const Images(
+        image1: "img/formula_imgs/Chemistry/Inorganic/01Inorg.png");
     Images image20 = const Images(
-        image1: "img/formula_imgs/Chemistry/PeriodicTable/01PerTab");
+        image1: "img/formula_imgs/Chemistry/PeriodicTable/01PerTab.png");
     Images image21 = const Images(
-        image1: "img/formula_imgs/Chemistry/ThermoChem/01ThermalChem");
+        image1: "img/formula_imgs/Chemistry/ThermoChem/01ThermalChem.png");
     Images image22 = const Images(
-        image1: "img/formula_imgs/Chemistry/PhysicalChem/01PhysicalChem");
-    Images image23 =
-        const Images(image1: "img/formula_imgs/Chemistry/BioChem/01BioChem");
-    Images image24 = const Images(image1: "img/formula_imgs/Chemistry/");
+        image1: "img/formula_imgs/Chemistry/PhysicalChem/01PhysicalChem.png");
+    Images image23 = const Images(
+        image1: "img/formula_imgs/Chemistry/BioChem/01BioChem.png");
+    Images image24 = const Images(
+        image1: "img/formula_imgs/Chemistry/ThermoChem/01ThermalChem.png");
 
     //DESCRIPTION
 
@@ -470,149 +486,148 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     // THE CAST IS HERE SO THAT THE DATA IS NOT ADDED CONSTANTLY EVERYTIME THE APP IS LOADED
 
     if (images.isEmpty) {
-      Calcotron_Database.instance.createImage(image1);
-      Calcotron_Database.instance.createImage(image2);
-      Calcotron_Database.instance.createImage(image3);
-      Calcotron_Database.instance.createImage(image4);
-      Calcotron_Database.instance.createImage(image5);
-      Calcotron_Database.instance.createImage(image6);
-      Calcotron_Database.instance.createImage(image7);
-      Calcotron_Database.instance.createImage(image8);
-      Calcotron_Database.instance.createImage(image9);
-      Calcotron_Database.instance.createImage(image10);
-      Calcotron_Database.instance.createImage(image10);
-      Calcotron_Database.instance.createImage(image11);
-      Calcotron_Database.instance.createImage(image12);
-      Calcotron_Database.instance.createImage(image13);
-      Calcotron_Database.instance.createImage(image14);
-      Calcotron_Database.instance.createImage(image15);
-      Calcotron_Database.instance.createImage(image16);
-      Calcotron_Database.instance.createImage(image17);
-      Calcotron_Database.instance.createImage(image18);
-      Calcotron_Database.instance.createImage(image19);
-      Calcotron_Database.instance.createImage(image20);
-      Calcotron_Database.instance.createImage(image21);
-      Calcotron_Database.instance.createImage(image22);
-      Calcotron_Database.instance.createImage(image23);
-      Calcotron_Database.instance.createImage(image24);
+      await Calcotron_Database.instance.createImage(image1);
+      await Calcotron_Database.instance.createImage(image2);
+      await Calcotron_Database.instance.createImage(image3);
+      await Calcotron_Database.instance.createImage(image4);
+      await Calcotron_Database.instance.createImage(image5);
+      await Calcotron_Database.instance.createImage(image6);
+      await Calcotron_Database.instance.createImage(image7);
+      await Calcotron_Database.instance.createImage(image8);
+      await Calcotron_Database.instance.createImage(image9);
+      await Calcotron_Database.instance.createImage(image10);
+      await Calcotron_Database.instance.createImage(image10);
+      await Calcotron_Database.instance.createImage(image11);
+      await Calcotron_Database.instance.createImage(image12);
+      await Calcotron_Database.instance.createImage(image13);
+      await Calcotron_Database.instance.createImage(image14);
+      await Calcotron_Database.instance.createImage(image15);
+      await Calcotron_Database.instance.createImage(image16);
+      await Calcotron_Database.instance.createImage(image17);
+      await Calcotron_Database.instance.createImage(image18);
+      await Calcotron_Database.instance.createImage(image19);
+      await Calcotron_Database.instance.createImage(image20);
+      await Calcotron_Database.instance.createImage(image21);
+      await Calcotron_Database.instance.createImage(image22);
+      await Calcotron_Database.instance.createImage(image23);
+      await Calcotron_Database.instance.createImage(image24);
     }
     if (description.isEmpty) {
-      Calcotron_Database.instance.createDescription(description1);
-      Calcotron_Database.instance.createDescription(description2);
-      Calcotron_Database.instance.createDescription(description3);
-      Calcotron_Database.instance.createDescription(description4);
-      Calcotron_Database.instance.createDescription(description5);
-      Calcotron_Database.instance.createDescription(description6);
-      Calcotron_Database.instance.createDescription(description7);
-      Calcotron_Database.instance.createDescription(description8);
-      Calcotron_Database.instance.createDescription(description9);
-      Calcotron_Database.instance.createDescription(description10);
-      Calcotron_Database.instance.createDescription(description10);
-      Calcotron_Database.instance.createDescription(description11);
-      Calcotron_Database.instance.createDescription(description12);
-      Calcotron_Database.instance.createDescription(description13);
-      Calcotron_Database.instance.createDescription(description14);
-      Calcotron_Database.instance.createDescription(description15);
-      Calcotron_Database.instance.createDescription(description16);
-      Calcotron_Database.instance.createDescription(description17);
-      Calcotron_Database.instance.createDescription(description18);
-      Calcotron_Database.instance.createDescription(description19);
-      Calcotron_Database.instance.createDescription(description20);
-      Calcotron_Database.instance.createDescription(description21);
-      Calcotron_Database.instance.createDescription(description22);
-      Calcotron_Database.instance.createDescription(description23);
-      Calcotron_Database.instance.createDescription(description24);
+      await Calcotron_Database.instance.createDescription(description1);
+      await Calcotron_Database.instance.createDescription(description2);
+      await Calcotron_Database.instance.createDescription(description3);
+      await Calcotron_Database.instance.createDescription(description4);
+      await Calcotron_Database.instance.createDescription(description5);
+      await Calcotron_Database.instance.createDescription(description6);
+      await Calcotron_Database.instance.createDescription(description7);
+      await Calcotron_Database.instance.createDescription(description8);
+      await Calcotron_Database.instance.createDescription(description9);
+      await Calcotron_Database.instance.createDescription(description10);
+      await Calcotron_Database.instance.createDescription(description10);
+      await Calcotron_Database.instance.createDescription(description11);
+      await Calcotron_Database.instance.createDescription(description12);
+      await Calcotron_Database.instance.createDescription(description13);
+      await Calcotron_Database.instance.createDescription(description14);
+      await Calcotron_Database.instance.createDescription(description15);
+      await Calcotron_Database.instance.createDescription(description16);
+      await Calcotron_Database.instance.createDescription(description17);
+      await Calcotron_Database.instance.createDescription(description18);
+      await Calcotron_Database.instance.createDescription(description19);
+      await Calcotron_Database.instance.createDescription(description20);
+      await Calcotron_Database.instance.createDescription(description21);
+      await Calcotron_Database.instance.createDescription(description22);
+      await Calcotron_Database.instance.createDescription(description23);
+      await Calcotron_Database.instance.createDescription(description24);
     }
     if (title.isEmpty) {
-      Calcotron_Database.instance.createTitle(title1);
-      Calcotron_Database.instance.createTitle(title2);
-      Calcotron_Database.instance.createTitle(title3);
-      Calcotron_Database.instance.createTitle(title4);
-      Calcotron_Database.instance.createTitle(title5);
-      Calcotron_Database.instance.createTitle(title6);
-
-      Calcotron_Database.instance.createTitle(title7);
-      Calcotron_Database.instance.createTitle(title8);
-      Calcotron_Database.instance.createTitle(title9);
-      Calcotron_Database.instance.createTitle(title10);
-      Calcotron_Database.instance.createTitle(title11);
-      Calcotron_Database.instance.createTitle(title12);
-      Calcotron_Database.instance.createTitle(title13);
-      Calcotron_Database.instance.createTitle(title14);
-      Calcotron_Database.instance.createTitle(title15);
-      Calcotron_Database.instance.createTitle(title16);
-      Calcotron_Database.instance.createTitle(title17);
-      Calcotron_Database.instance.createTitle(title18);
-      Calcotron_Database.instance.createTitle(title19);
-      Calcotron_Database.instance.createTitle(title20);
-      Calcotron_Database.instance.createTitle(title21);
-      Calcotron_Database.instance.createTitle(title22);
-      Calcotron_Database.instance.createTitle(title23);
-      Calcotron_Database.instance.createTitle(title24);
+      await Calcotron_Database.instance.createTitle(title1);
+      await Calcotron_Database.instance.createTitle(title2);
+      await Calcotron_Database.instance.createTitle(title3);
+      await Calcotron_Database.instance.createTitle(title4);
+      await Calcotron_Database.instance.createTitle(title5);
+      await Calcotron_Database.instance.createTitle(title6);
+      await Calcotron_Database.instance.createTitle(title7);
+      await Calcotron_Database.instance.createTitle(title8);
+      await Calcotron_Database.instance.createTitle(title9);
+      await Calcotron_Database.instance.createTitle(title10);
+      await Calcotron_Database.instance.createTitle(title11);
+      await Calcotron_Database.instance.createTitle(title12);
+      await Calcotron_Database.instance.createTitle(title13);
+      await Calcotron_Database.instance.createTitle(title14);
+      await Calcotron_Database.instance.createTitle(title15);
+      await Calcotron_Database.instance.createTitle(title16);
+      await Calcotron_Database.instance.createTitle(title17);
+      await Calcotron_Database.instance.createTitle(title18);
+      await Calcotron_Database.instance.createTitle(title19);
+      await Calcotron_Database.instance.createTitle(title20);
+      await Calcotron_Database.instance.createTitle(title21);
+      await Calcotron_Database.instance.createTitle(title22);
+      await Calcotron_Database.instance.createTitle(title23);
+      await Calcotron_Database.instance.createTitle(title24);
     }
     if (subject.isEmpty) {
-      Calcotron_Database.instance.createSubject(subject1);
-      Calcotron_Database.instance.createSubject(subject2);
-      Calcotron_Database.instance.createSubject(subject3);
+      await Calcotron_Database.instance.createSubject(subject1);
+      await Calcotron_Database.instance.createSubject(subject2);
+      await Calcotron_Database.instance.createSubject(subject3);
     }
     if (topics.isEmpty) {
-      Calcotron_Database.instance.createTopics(topic1);
-      Calcotron_Database.instance.createTopics(topic2);
-      Calcotron_Database.instance.createTopics(topic3);
-      Calcotron_Database.instance.createTopics(topic4);
-      Calcotron_Database.instance.createTopics(topic5);
-      Calcotron_Database.instance.createTopics(topic6);
-      Calcotron_Database.instance.createTopics(topic7);
-      Calcotron_Database.instance.createTopics(topic8);
-      Calcotron_Database.instance.createTopics(topic9);
-      Calcotron_Database.instance.createTopics(topic10);
-      Calcotron_Database.instance.createTopics(topic11);
-      Calcotron_Database.instance.createTopics(topic12);
-      Calcotron_Database.instance.createTopics(topic13);
-      Calcotron_Database.instance.createTopics(topic14);
-      Calcotron_Database.instance.createTopics(topic15);
-      Calcotron_Database.instance.createTopics(topic16);
-      Calcotron_Database.instance.createTopics(topic17);
-      Calcotron_Database.instance.createTopics(topic18);
-      Calcotron_Database.instance.createTopics(topic19);
-      Calcotron_Database.instance.createTopics(topic20);
-      Calcotron_Database.instance.createTopics(topic21);
-      Calcotron_Database.instance.createTopics(topic22);
-      Calcotron_Database.instance.createTopics(topic23);
-      Calcotron_Database.instance.createTopics(topic24);
+      await Calcotron_Database.instance.createTopics(topic1);
+      await Calcotron_Database.instance.createTopics(topic2);
+      await Calcotron_Database.instance.createTopics(topic3);
+      await Calcotron_Database.instance.createTopics(topic4);
+      await Calcotron_Database.instance.createTopics(topic5);
+      await Calcotron_Database.instance.createTopics(topic6);
+      await Calcotron_Database.instance.createTopics(topic7);
+      await Calcotron_Database.instance.createTopics(topic8);
+      await Calcotron_Database.instance.createTopics(topic9);
+      await Calcotron_Database.instance.createTopics(topic10);
+      await Calcotron_Database.instance.createTopics(topic11);
+      await Calcotron_Database.instance.createTopics(topic12);
+      await Calcotron_Database.instance.createTopics(topic13);
+      await Calcotron_Database.instance.createTopics(topic14);
+      await Calcotron_Database.instance.createTopics(topic15);
+      await Calcotron_Database.instance.createTopics(topic16);
+      await Calcotron_Database.instance.createTopics(topic17);
+      await Calcotron_Database.instance.createTopics(topic18);
+      await Calcotron_Database.instance.createTopics(topic19);
+      await Calcotron_Database.instance.createTopics(topic20);
+      await Calcotron_Database.instance.createTopics(topic21);
+      await Calcotron_Database.instance.createTopics(topic22);
+      await Calcotron_Database.instance.createTopics(topic23);
+      await Calcotron_Database.instance.createTopics(topic24);
     }
     if (qna.isEmpty) {
-      Calcotron_Database.instance.createQnA(question1);
-      Calcotron_Database.instance.createQnA(question2);
-      Calcotron_Database.instance.createQnA(question3);
-      Calcotron_Database.instance.createQnA(question4);
-      Calcotron_Database.instance.createQnA(question5);
-      Calcotron_Database.instance.createQnA(question6);
-      Calcotron_Database.instance.createQnA(question7);
-      Calcotron_Database.instance.createQnA(question8);
-      Calcotron_Database.instance.createQnA(question9);
-      Calcotron_Database.instance.createQnA(question10);
-      Calcotron_Database.instance.createQnA(question11);
-      Calcotron_Database.instance.createQnA(question12);
-      Calcotron_Database.instance.createQnA(question13);
-      Calcotron_Database.instance.createQnA(question14);
-      Calcotron_Database.instance.createQnA(question15);
-      Calcotron_Database.instance.createQnA(question16);
-      Calcotron_Database.instance.createQnA(question17);
-      Calcotron_Database.instance.createQnA(question18);
-      Calcotron_Database.instance.createQnA(question19);
-      Calcotron_Database.instance.createQnA(question20);
-      Calcotron_Database.instance.createQnA(question21);
-      Calcotron_Database.instance.createQnA(question22);
+      await Calcotron_Database.instance.createQnA(question1);
+      await Calcotron_Database.instance.createQnA(question2);
+      await Calcotron_Database.instance.createQnA(question3);
+      await Calcotron_Database.instance.createQnA(question4);
+      await Calcotron_Database.instance.createQnA(question5);
+      await Calcotron_Database.instance.createQnA(question6);
+      await Calcotron_Database.instance.createQnA(question7);
+      await Calcotron_Database.instance.createQnA(question8);
+      await Calcotron_Database.instance.createQnA(question9);
+      await Calcotron_Database.instance.createQnA(question10);
+      await Calcotron_Database.instance.createQnA(question11);
+      await Calcotron_Database.instance.createQnA(question12);
+      await Calcotron_Database.instance.createQnA(question13);
+      await Calcotron_Database.instance.createQnA(question14);
+      await Calcotron_Database.instance.createQnA(question15);
+      await Calcotron_Database.instance.createQnA(question16);
+      await Calcotron_Database.instance.createQnA(question17);
+      await Calcotron_Database.instance.createQnA(question18);
+      await Calcotron_Database.instance.createQnA(question19);
+      await Calcotron_Database.instance.createQnA(question20);
+      await Calcotron_Database.instance.createQnA(question21);
+      await Calcotron_Database.instance.createQnA(question22);
     }
     //REFRESH DATA AFTER INSERTING
     //REFRESH DATA AFTER INSERTING
-      images = await Calcotron_Database.instance.readAllImages();
-      description = await Calcotron_Database.instance.readAllDescription();
-      title = await Calcotron_Database.instance.readAllTitle();
-      subject = await Calcotron_Database.instance.readAllSubjects();
-      topics = await Calcotron_Database.instance.readAllTopics();
-      qna = await Calcotron_Database.instance.readAllQnAs();
+    images = await Calcotron_Database.instance.readAllImages();
+    description = await Calcotron_Database.instance.readAllDescription();
+    title = await Calcotron_Database.instance.readAllTitle();
+    subject = await Calcotron_Database.instance.readAllSubjects();
+    topics = await Calcotron_Database.instance.readAllTopics();
+    qna = await Calcotron_Database.instance.readAllQnAs();
 
     setState(() {});
   }
@@ -645,9 +660,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               if (result == MenuItem.About) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const About()));
-              }else if (result == MenuItem.Graph) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Graph()));
+              } else if (result == MenuItem.Graph) {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Graph()));
+              }else if (result == MenuItem.Quiz) {
+              Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Quiz(qna: qna)));
               }
             },
             icon: const Icon(Icons.menu),
@@ -670,7 +688,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               const PopupMenuItem(
                 value: MenuItem.Graph,
                 child: DefaultTextStyle(
-                    style: TextStyle(color: Colors.white), child: Text("Graph")),
+                    style: TextStyle(color: Colors.white),
+                    child: Text("Graph")),
               ),
               const PopupMenuItem(
                 value: MenuItem.Quiz,
@@ -688,7 +707,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               onPressed: () async {
                 showSearch(
                   context: context,
-                  delegate: MySearchBar(),
+                  delegate: MySearchBar(
+                    id: 0,
+                    images: images,
+                    description: description,
+                    title: title,
+                    subject: subject,
+                    topics: topics,
+                    qna: qna,
+                  ),
                 );
               },
             ),
@@ -714,24 +741,37 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[Physics(images: images, description: description, title: title, subject: subject,
-            topics: topics, qna: qna,), Chemistry(), Maths()],
+          children: <Widget>[
+            Physics(
+              images: images,
+              description: description,
+              title: title,
+              subject: subject,
+              topics: topics,
+              qna: qna,
+            ),
+            Chemistry(
+              images: images,
+              description: description,
+              title: title,
+              subject: subject,
+              topics: topics,
+              qna: qna,
+            ),
+            Maths(
+              images: images,
+              description: description,
+              title: title,
+              subject: subject,
+              topics: topics,
+              qna: qna,
+            )
+          ],
           controller: _tabController,
         ),
-        // floatingActionButton: FloatingActionButton.large(
-        //   onPressed: () {
-        //     setState(() {
-        //       hit=true;
-        //       if(hit=false)_selectedIndex=1;
-        //       else _selectedIndex=0;
-        //     });
-        //   },
-        //   child: const Icon(Icons.waving_hand),
-        //   backgroundColor: Colors.deepOrange,
-        // ),
       ),
     );
   }
 }
 
-enum MenuItem { About, Quiz, Graph}
+enum MenuItem { About, Quiz, Graph }

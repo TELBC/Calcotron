@@ -1,10 +1,28 @@
+import 'package:calcotron/redirect.dart';
+import 'package:calcotron/redirect2.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'Database.dart';
 import 'main.dart';
 
-
 class MySearchBar extends SearchDelegate {
+  MySearchBar(
+      {required this.id,
+      required this.images,
+      required this.description,
+      required this.title,
+      required this.subject,
+      required this.topics,
+      required this.qna});
+
+  final int id;
+  final List<Images> images;
+  final List<Description> description;
+  final List<Titles> title;
+  final List<Subject> subject;
+  final List<Topics> topics;
+  final List<QnA> qna;
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -130,12 +148,15 @@ class MySearchBar extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text(
-        query,
-        style: const TextStyle(fontSize: 64),
-        // This is where we show the actual page
-      ),
+    int index = existingmethods.indexOf(query);
+    return Redirect2(
+      id: index,
+      images: images,
+      description: description,
+      title: title,
+      subject: subject,
+      topics: topics,
+      qna: qna,
     );
   }
 }

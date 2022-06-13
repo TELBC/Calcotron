@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:calcotron/Database.dart';
 
-class Redirect extends StatefulWidget {
-  Redirect(
+class Redirect2 extends StatefulWidget {
+  Redirect2(
       {Key? key,
-      required this.id,
-      required this.images,
-      required this.description,
-      required this.title,
-      required this.subject,
-      required this.topics,
-      required this.qna})
+        required this.id,
+        required this.images,
+        required this.description,
+        required this.title,
+        required this.subject,
+        required this.topics,
+        required this.qna})
       : super(key: key);
 
   final int id;
@@ -22,10 +22,10 @@ class Redirect extends StatefulWidget {
   final List<QnA> qna;
 
   @override
-  State<Redirect> createState() => _RedirectState();
+  State<Redirect2> createState() => _RedirectState2();
 }
 
-class _RedirectState extends State<Redirect> {
+class _RedirectState2 extends State<Redirect2> {
   final textfieldController = TextEditingController();
 
   @override
@@ -38,14 +38,11 @@ class _RedirectState extends State<Redirect> {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.black12,
-        ),
         scaffoldBackgroundColor: Colors.white10,
         hintColor: Colors.white38,
         textTheme: Theme.of(context).textTheme.copyWith(
-              headline6: const TextStyle(color: Colors.white, fontSize: 18),
-            ),
+          headline6: const TextStyle(color: Colors.white, fontSize: 18),
+        ),
         inputDecorationTheme: const InputDecorationTheme(
           focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.greenAccent)),
@@ -56,10 +53,6 @@ class _RedirectState extends State<Redirect> {
       ),
       child: Scaffold(
         backgroundColor: Colors.white12,
-        appBar: AppBar(
-          title: Text(widget.title[widget.id].title),
-          backgroundColor: Colors.black26,
-        ),
         body: ScrollConfiguration(
           behavior: const ScrollBehavior(),
           child: GlowingOverscrollIndicator(
@@ -88,8 +81,8 @@ class _RedirectState extends State<Redirect> {
                     await showDialog(
                         context: context,
                         builder: (_) => ImageDialogue(
-                              image: widget.images[widget.id].image1,
-                            ));
+                          image: widget.images[widget.id].image1,
+                        ));
                   },
                   child: Container(
                     margin: const EdgeInsets.all(5.0),
